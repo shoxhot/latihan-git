@@ -36,3 +36,5 @@ php artisan migrate:fresh --seed
 
 ### 5. Menjalankan server Laravel
 php artisan serve
+
+## Perubahan Praktikum 6 - Pengujian Git Pull
