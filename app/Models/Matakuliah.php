@@ -21,5 +21,13 @@ class Matakuliah extends Model
     public function nilai() {
         return $this->hasMany(NilaiMatakuliah::class, 'matakuliah_id', 'kode_mk');
     }
+
+    public function mahasiswa() {
+        return $this->belongsTo(Mahasiswa::class, 'mahasiswa_id', 'nim');
+    }
+
+    public function matakuliah() {
+        return $this->belongsTo(Matakuliah::class, 'matakuliah_id', 'kode_mk');
+    }
 }
     

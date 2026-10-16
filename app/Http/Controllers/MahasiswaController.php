@@ -7,59 +7,36 @@ use Illuminate\Http\Request;
 
 class MahasiswaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+    public function index() {
+        $mahasiswa = Mahasiswa::with('nilai')->get();
+        return view('mahasiswa.index', compact('mahasiswa'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+    public function show(Mahasiswa $mahasiswa) {
+        $mahasiswa->load('nilai.matakuliah');
+        return view('mahasiswa.show', compact('mahasiswa'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+    public function create() {
+        return view('mahasiswa.create');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Mahasiswa $mahasiswa)
-    {
-        //
+    public function store(Request $request) {
+        Mahasiswa::create($request->only(['nim', 'nama', 'prodi', 'semester', 'no_hp']));
+        return redirect()->route('mahasiswa.index')->with('pesan', 'Data berhasil ditambahkan');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Mahasiswa $mahasiswa)
-    {
-        //
+    public function edit(Mahasiswa $mahasiswa) {
+        return view('mahasiswa.edit', compact('mahasiswa'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Mahasiswa $mahasiswa)
-    {
-        //
+    public function update(Request $request, Mahasiswa $mahasiswa) {
+        $mahasiswa->update($request->only(['nama', 'prodi', 'semester', 'no_hp']));
+        return redirect()->route('mahasiswa.index')->with('pesan', 'Data berhasil diperbarui');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Mahasiswa $mahasiswa)
-    {
-        //
+    public function destroy(Mahasiswa $mahasiswa) {
+        $mahasiswa->delete();
+        return redirect()->route('mahasiswa.index')->with('pesan', 'Data berhasil dihapus');
     }
 }

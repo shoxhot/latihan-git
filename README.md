@@ -1,37 +1,37 @@
-# Proyek Akhir Pemrograman Web - Laravel
+# Sistem Informasi Akademik (Proyek Akhir: Controller, Query Builder, Eloquent)
 
-Nama: Shofaa Nurghinaa
-NIM: C050425033
-Kelas: 3B SIKC
+**Nama:** Shofaa Nurghinaa
+**NIM:** C050425033
+**Kelas:** 3B SIKC
+**Mata Kuliah:** Pemrograman Berbasis Web
 
-## Deskripsi Proyek
-Mini aplikasi manajemen data akademik yang mengelola data Mahasiswa,
-Mata Kuliah, dan Nilai. Terdapat relasi antar 3 tabel: Mahasiswa dan
-Mata Kuliah masing-masing berelasi one-to-many dengan tabel Nilai
-Mata Kuliah, sedangkan Mata Kuliah juga berelasi dengan User sebagai
-dosen pengampu.
+## Daftar Controller
+- MahasiswaController: resource + Route Model Binding (CRUD Eloquent)
+- MatakuliahController: resource + Route Model Binding (CRUD Eloquent)
+- StatistikMahasiswaController dan HitungTotalSksController: single action (invokable)
+- Admin/DashboardController dan Laporan/RekapController: controller di sub-folder
+- SapaController, LatihanController, QueryBuilderDemoController: latihan praktikum
 
-## Perintah Artisan yang Digunakan
-- php artisan make:migration create_mahasiswas_table
-- php artisan make:migration create_matakuliahs_table
-- php artisan make:migration add_dosen_id_to_matakuliahs_table --table=matakuliahs
-- php artisan make:migration create_nilai_matakuliahs_table
-- php artisan make:model Mahasiswa
-- php artisan make:model Matakuliah
-- php artisan make:model NilaiMatakuliah
-- php artisan make:seeder MahasiswaSeeder
-- php artisan make:seeder MatakuliahSeeder
-- php artisan make:seeder NilaiMatakuliahSeeder
-- php artisan make:factory MahasiswaFactory --model=Mahasiswa
-- php artisan make:factory MatakuliahFactory --model=Matakuliah
-- php artisan make:factory NilaiMatakuliahFactory --model=NilaiMatakuliah
+## Query Builder
+- QueryBuilderDemoController (route /demo/*): CRUD, filter, rekap per prodi dengan groupBy dan DB::raw, serta paginate.
+- Laporan utama: /demo/tugas-2 (jumlah mahasiswa per prodi).
 
-## Cara Menjalankan Project
+## Eloquent
+- CRUD Mahasiswa dan Mata Kuliah dengan create, update, delete, dan Route Model Binding.
+- Relasi: Mahasiswa hasMany NilaiMatakuliah, NilaiMatakuliah belongsTo Mahasiswa dan Matakuliah.
+- Eager loading: load('nilai.matakuliah') dan load('nilai.mahasiswa') pada halaman detail.
+- Bukti query log (10 mahasiswa): tanpa with() 11 query, dengan with('nilai') 2 query.
+
+## Cara Menjalankan
 1. composer install
-2. Sesuaikan koneksi database di file .env
-3. php artisan migrate:fresh --seed
-4. php artisan serve
-5. Buka browser ke:
-   - http://127.0.0.1:8000/mahasiswa
-   - http://127.0.0.1:8000/matakuliah
-   - http://127.0.0.1:8000/nilai
+2. copy .env.example .env
+3. Atur koneksi database di .env (MySQL, database: laravel-praktikum-c050425033-db)
+4. php artisan key:generate
+5. Import database.sql ke MySQL
+6. php artisan serve
+7. Buka http://127.0.0.1:8000/akademik/mahasiswa
+
+## Halaman Utama
+- /akademik/mahasiswa, /akademik/mahasiswa/{nim}
+- /akademik/matakuliah, /akademik/matakuliah/{kode_mk}
+- /laporan/rekap, /statistik, /total-sks, /admin/dashboard
